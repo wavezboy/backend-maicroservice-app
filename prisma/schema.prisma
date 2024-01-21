@@ -17,11 +17,13 @@ model User {
   name String
   username String @unique
   bio String
-  image String
-
+  image String?
   isVerified Boolean @default(false)
 
   tweets Tweet[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
   
 }
 

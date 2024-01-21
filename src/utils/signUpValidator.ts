@@ -1,5 +1,6 @@
 import validator from "validator";
 import isEmpty from "is-empty";
+import e from "cors";
 
 export default interface signUpUser {
   email: string;
@@ -11,14 +12,12 @@ export default interface signUpUser {
   image: string;
 }
 
+interface ErrorObject {
+  [key: string]: string;
+}
+
 export const validateSignUpInput = (data: signUpUser) => {
-  const errors = {
-    name: "",
-    email: "",
-    username: "",
-    password: "",
-    password1: " ",
-  };
+  const errors: ErrorObject = {};
 
   // Converts empty fields to String in order to validate them
 
@@ -34,19 +33,33 @@ export const validateSignUpInput = (data: signUpUser) => {
   }
 
   if (validator.isEmpty(data.bio)) {
-    errors.name = "bio field is required";
+    errors.bio = "bio field is required";
   }
 
   if (validator.isEmpty(data.email)) {
-    errors.name = "email field is required";
+    errors.email = "email field is required";
   }
 
   if (validator.isEmpty(data.username)) {
-    errors.name = "username field is required";
+    errors.username = "username field is required";
   }
   if (validator.isEmpty(data.password)) {
-    errors.name = "password field is required";
+    errors.password = "password field is required";
+  }
+  if (validator.isEmpty(data.password1)) {
+    errors.password1 = "confrim password field is required";
   }
 
+  if (!validator.isEmail(data.email)) {
+    errors.email = "invalid email";
+  }
+
+  if (!validator.isLength(data.password, { min: 6, max: 30 })) {
+    errors.password = "passwor must be at least 6 characters";
+  }
+
+  if (!validator.equals(data.password, data.password1)) {
+    errors.password = "password and confirm password must match";
+  }
   return { errors, isValid: isEmpty(errors) };
 };
