@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import app from "../app";
 import { PrismaClient } from "@prisma/client";
 import signUpUser from "../utils/signUpValidator";
+import { validateSignUpInput } from "../utils/signUpValidator";
 
 const prisma = new PrismaClient();
 
@@ -11,7 +12,11 @@ export const signUpUser: RequestHandler<
   signUpUser,
   unknown
 > = async (req, res) => {
-  const { bio, email, image, name, username } = req.body;
+  const { errors, isValid } = validateSignUpInput(req.body);
+
+  if (!isValid) {
+    res.status(501).json({ errors });
+  }
 
   res.status(501).json();
 };
