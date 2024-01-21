@@ -1,8 +1,19 @@
 import { RequestHandler } from "express";
 import app from "../app";
+import { PrismaClient } from "@prisma/client";
+import signUpUser from "../utils/signUpValidator";
 
-export const signUpUser: RequestHandler = async (req, res) => {
-  res.status(501).json({ error: "not implemented" });
+const prisma = new PrismaClient();
+
+export const signUpUser: RequestHandler<
+  unknown,
+  unknown,
+  signUpUser,
+  unknown
+> = async (req, res) => {
+  const { bio, email, image, name, username } = req.body;
+
+  res.status(501).json();
 };
 
 export const getAllUsers: RequestHandler = async (req, res) => {
