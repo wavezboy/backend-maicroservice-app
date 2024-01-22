@@ -82,15 +82,35 @@ export const getUser: RequestHandler<
   }
 };
 
+interface updateBody {
+  bio: string;
+  image: string;
+  username: string;
+}
+
 export const updateUser: RequestHandler<
   getUserBody,
   unknown,
-  unknown,
+  updateBody,
   unknown
 > = async (req, res) => {
   let { id } = req.params;
+  const { bio, image, username } = req.body;
 
-  res.status(501).json({ error: "not implemented" });
+  try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        bio,
+        image,
+        username,
+      },
+    });
+  } catch (error) {
+    res.status(401).json({ error });
+  }
 };
 
 export const deleteUser: RequestHandler<
