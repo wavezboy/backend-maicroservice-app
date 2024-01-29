@@ -108,6 +108,8 @@ export const updateUser: RequestHandler<
         username,
       },
     });
+
+    res.status(201).json(updatedUser);
   } catch (error) {
     res.status(401).json({ error });
   }
@@ -121,5 +123,10 @@ export const deleteUser: RequestHandler<
 > = async (req, res) => {
   let { id } = req.params;
 
-  res.status(501).json({ error: "not implemented" });
+  try {
+    await prisma.user.delete({ where: { id: Number(id) } });
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(501).json({ error });
+  }
 };
