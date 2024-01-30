@@ -26,7 +26,9 @@ export const getTweet: RequestHandler<
 > = async (req, res) => {
   let { id } = req.params;
   try {
-    const tweet = await prisma.tweet.findUnique({ where: { id: Number(id) } });
+    const tweet = await prisma.tweet.findMany({
+      where: { userId: Number(id) },
+    });
 
     res.status(201).json(tweet);
   } catch (error) {
