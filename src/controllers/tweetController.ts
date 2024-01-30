@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import app from "../app";
 import { PrismaClient } from "@prisma/client";
+import { Mongoose, Types } from "mongoose";
 
 const prisma = new PrismaClient();
 
@@ -33,6 +34,35 @@ export const getTweet: RequestHandler<
   }
 };
 
+interface createTweetBody {
+  content: string;
+  image: string;
+  userId: number;
+}
+
+export const createTweet: RequestHandler<
+  unknown,
+  unknown,
+  createTweetBody,
+  unknown
+> = async (req, res) => {
+  const { content, image, userId } = req.body;
+
+  try {
+    const tweet = await prisma.tweet.create({
+      data: {
+        content: content,
+        image: image,
+        userId: userId,
+      },
+    });
+
+    res.status(201).json({ tweet });
+  } catch (error) {
+    res.status(501).json({ error });
+  }
+};
+
 export const updateTweet: RequestHandler<
   getTweetBody,
   unknown,
@@ -41,7 +71,10 @@ export const updateTweet: RequestHandler<
 > = async (req, res) => {
   let { id } = req.params;
 
-  res.status(501).json({ error: "not implemented" });
+  try {
+  } catch (error) {
+    res.status(501).json({ error });
+  }
 };
 
 export const deleteTweet: RequestHandler<
