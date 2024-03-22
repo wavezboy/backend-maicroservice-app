@@ -14,13 +14,14 @@ model User {
   id Int  @id @default(autoincrement())
   email String @unique
 
-  name String
-  username String @unique
-  bio String
+  name String?
+  username String? @unique
+  bio String?
   image String?
   isVerified Boolean @default(false)
 
   tweets Tweet[]
+  tokens Token[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime?  @updatedAt
@@ -43,3 +44,25 @@ model Tweet {
 
 }
 
+model Token {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  type String  // EMAIL/API
+  emailToken String? @unique
+
+  valid Boolean @default(true)
+  expiration DateTime
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  
+}
+
+// for other database apart from sqlite
+
+// enum TokenType {
+//   EMAIL
+//   API
+// }

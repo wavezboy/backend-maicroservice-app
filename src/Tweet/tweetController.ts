@@ -1,13 +1,26 @@
 import { RequestHandler } from "express";
-import app from "../app";
+
 import { PrismaClient } from "@prisma/client";
-import { Mongoose, Types } from "mongoose";
 
 const prisma = new PrismaClient();
 
 export const getAllTweets: RequestHandler = async (req, res) => {
   try {
-    const tweets = await prisma.tweet.findMany();
+    const tweets = await prisma.tweet.findMany({
+      include: { user: { select: { id: true, name: true, image: true } } },
+      // select: {
+      //   id: true,
+      //   content: true,
+      //   user: {
+      //     select: {
+      //       id: true,
+      //       name: true,
+      //       username: true,
+      //       image: true,
+      //     },
+      //   },
+      // },
+    });
 
     res.status(201).json(tweets);
   } catch (error) {
@@ -48,17 +61,19 @@ export const createTweet: RequestHandler<
   createTweetBody,
   unknown
 > = async (req, res) => {
-  const { content, image, userId } = req.body;
+  const { content, image } = req.body;
+
+  //@ts-ignore
+  const user = req.user;
 
   try {
     const tweet = await prisma.tweet.create({
       data: {
         content: content,
         image: image,
-        userId: userId,
+        userId: user.id,
       },
     });
-
     res.status(201).json({ tweet });
   } catch (error) {
     res.status(501).json({ error });
