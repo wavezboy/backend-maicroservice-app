@@ -63,3 +63,10 @@ const roles = ["user", "superadmin", "admin", "ksks"] as const;
 type RolesArray = typeof roles;
 
 type Roles = RolesArray[number];
+
+export interface Tweet {
+  id_str: string;
+  favorited: boolean;
+  retweeted: boolean;
+  [key: string]: any;
+}

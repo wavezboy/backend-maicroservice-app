@@ -34,6 +34,8 @@
     "node": "^21.2.0",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
+    "twit": "^2.2.11",
+    "twitter": "^1.7.1",
     "typescript": "^5.3.3",
     "validator": "^13.11.0"
   },
@@ -41,6 +43,8 @@
     "@types/cors": "^2.8.17",
     "@types/http-errors": "^2.0.4",
     "@types/is-empty": "^1.2.3",
+    "@types/twit": "^2.2.35",
+    "@types/twitter": "^1.7.4",
     "@types/validator": "^13.11.8",
     "prisma": "^5.8.1"
   }

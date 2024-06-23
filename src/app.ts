@@ -1,9 +1,10 @@
-import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import { json } from "stream/consumers";
 import authRoutes from "./Authentication/authRoutes";
 import userRoutes from "./User/userRoutes";
 import tweetRoutes from "./Tweet/tweetRoutes";
+import twitter from "./twitter/twitterRoutes";
 import { authenticateToken } from "./mildlwares/authMidleware";
 
 const app = express();
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 app.use("/user", authenticateToken, userRoutes);
 app.use("/tweet", authenticateToken, tweetRoutes);
 app.use("/auth", authRoutes);
+app.use("/twitter", twitter);
 
 app.listen(5000, () => {
   console.log("server ready and listening on port: 5000");
