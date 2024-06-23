@@ -19,8 +19,9 @@ model User {
   bio String?
   image String?
   isVerified Boolean @default(false)
-  address String?
+  address String? 
   home String?
+  when String? @default("")
 
   tweets Tweet[]
   tokens Token[]

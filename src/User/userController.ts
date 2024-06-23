@@ -86,6 +86,8 @@ interface updateBody {
   bio: string;
   image: string;
   username: string;
+  address: string;
+  home: string;
 }
 
 export const updateUser: RequestHandler<
@@ -95,7 +97,7 @@ export const updateUser: RequestHandler<
   unknown
 > = async (req, res) => {
   let { id } = req.params;
-  const { bio, image, username } = req.body;
+  const { bio, image, username, address, home } = req.body;
 
   try {
     const updatedUser = await prisma.user.update({
@@ -106,6 +108,8 @@ export const updateUser: RequestHandler<
         bio,
         image,
         username,
+        address,
+        home,
       },
     });
 
