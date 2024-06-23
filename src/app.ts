@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
   res.send("hello world fucker");
 });
 
-app.use("/user", authenticateToken, userRoutes);
+app.use("/user", userRoutes);
 app.use("/tweet", authenticateToken, tweetRoutes);
 app.use("/auth", authRoutes);
 app.use("/twitter", twitter);
